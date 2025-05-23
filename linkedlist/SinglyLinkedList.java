@@ -1,5 +1,6 @@
 package SinglyLinkedList;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class SinglyLinkedList 
@@ -78,6 +79,73 @@ public class SinglyLinkedList
 		
 	}
 	
+	public void removeLast()
+	{
+		if(isEmpty())
+			throw new NoSuchElementException();
+		else if(getSize()==1)
+			head = tail = null;
+		else
+		{
+			Node temp = head;
+			while(temp.next!=tail)
+			{
+				temp = temp.next; // moving the temp pointer at second last
+			}
+			
+			temp.next = null ; // removing the last node
+			tail = temp; // updating tail to loc temp
+		}
+		size--;// decrementing size
+		System.err.println(this);
+	}
+	
+	public void removeFirst()
+	{
+		if(isEmpty())
+			throw new NoSuchElementException();
+		else if(getSize()==1)
+			head = tail = null; // if list have only 1 node
+		else
+		{
+			Node temp = head.next; // moving temp to head's next loc
+			head.next = null; // making head's next null ( dereferencing)
+			head = temp; // moving head to temp's loc
+			
+		}
+		size--;
+		System.err.println(this);
+		
+	}
+	
+	public void removeAtPos(int index)
+	{
+		if(isEmpty())
+			throw new NoSuchElementException();
+		else if(index==0)
+			removeFirst();
+		else if(index==getSize()-1)
+			removeLast();
+		else
+		{
+			int count = 0;
+			Node temp = head;
+			while(count!=index-1)
+			{
+				temp = temp.next;
+				count++;
+			}
+			
+			Node x = temp.next;
+			temp.next = temp.next.next;
+			x.next = null;
+			size--;
+			System.err.println(this);
+		}
+		
+		
+	}
+	
 	@Override
 	public String toString()
 	{
@@ -106,7 +174,8 @@ public class SinglyLinkedList
 		while(true)
 		{
 			System.out.println("-------------");
-			System.out.println("1.isEmpty?\n2.addFirst\n3.addLast\n4.addAtPos\n5.display");
+			System.out.println("1.isEmpty?\n2.addFirst\n3.addLast\n4.addAtPos\n5.display"
+					+ "\n6.removeLast\n7.removeFirst\n8.removeAtPos");
 			int ch = sc.nextInt();
 			if(ch==1)
 				System.out.println(list.isEmpty());
@@ -129,6 +198,19 @@ public class SinglyLinkedList
 			else if(ch==5)
 			{
 				System.err.println(list);
+			}
+			else if(ch==6)
+			{
+				list.removeLast();
+			}
+			else if(ch==7)
+			{
+				list.removeFirst();
+			}
+			else if(ch==8)
+			{
+				System.out.print("Enter the index"); int index = sc.nextInt();
+				list.removeAtPos(index);
 			}
 				
 			System.out.println("-------------");
