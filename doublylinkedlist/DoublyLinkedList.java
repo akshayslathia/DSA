@@ -80,6 +80,77 @@ public class DoublyLinkedList
 		
 	}
 	
+	public void removeFirst()
+	{
+		if(isEmpty())
+			throw new LinkedListEmptyException("Linked list is empty");
+		else if(getSize()==1)
+			head = tail = null;
+		else
+		{
+			Node temp = head.next;
+			head.next.prev = null;
+			head.next = null;
+			head = temp;
+		}
+		
+		size--;
+		System.out.println(this);
+	}
+	
+	
+	
+	public void removeAtPos(int index)
+	{
+		if(index<0 || index>=getSize())
+			throw new IndexOutOfBoundsException("Invalid index");
+		else if(index==0)
+			removeFirst();
+		else if(index==getSize()-1)
+			removeLast();
+		else
+		{
+			int count = 0;
+			Node temp = head;
+			while(count!=index)
+			{
+				count++;
+				temp  = temp.next;
+			}
+			temp.prev.next = temp.next;
+			temp.next.prev = temp.prev;
+			temp.next = temp.prev = null;
+			
+			size--;
+			System.out.println(this);
+			
+		}
+		
+	}
+	
+	public void clear()
+	{
+		head  = tail = null;
+		System.out.println(this);
+	}
+	
+	public void removeLast()
+	{
+		if(isEmpty())
+			throw new LinkedListEmptyException("Linked list is empty");
+		else if(getSize()==1)
+			removeFirst();
+		else
+		{
+			Node temp = tail.prev;
+			tail.prev = null;
+			temp.next = null;
+			tail = temp;
+			size--;
+			System.out.println(this);
+		}
+	}
+	
 	@Override
 	public String toString()
 	{
@@ -134,7 +205,8 @@ public class DoublyLinkedList
 		while(true)
 		{
 			System.out.println("-----------------");
-			System.out.println("1.Add Last\n2.Get Size\n3.Display\n4.Display Reverse\n5.addFirst\n6.Add At pos");
+			System.out.println("1.Add Last\n2.Get Size\n3.Display\n4.Display Reverse\n5.addFirst\n6.Add At pos"
+					+ "\n7.removeFirst\n8.removeLast\n9.removeFromPos\n10.clear");
 			System.out.println("-----------------");
 			int ch = sc.nextInt();
 			if(ch==1)
@@ -159,6 +231,17 @@ public class DoublyLinkedList
 				System.out.print("Enter pos");int pos = sc.nextInt();
 				list.addAtPos(data, pos);
 			}
+			else if(ch==7)
+				list.removeFirst();
+			else if(ch==8)
+				list.removeLast();
+			else if(ch==9)
+			{
+				System.out.print("Enter index :"); 
+				list.removeAtPos(sc.nextInt());
+			}
+			else if(ch==10)
+				list.clear();
 		}
 		
 	}
